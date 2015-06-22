@@ -1,11 +1,12 @@
 ﻿// NoteSorter.cs
 // <copyright file="NoteSorter.cs"> This code is protected under the MIT License. </copyright>
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Todo_List
 {
     /// <summary>
-    /// A static class containing a list of notes and categories and methods for sorting them.
+    /// A static class containing a list of notes and methods for sorting them.
     /// </summary>
     public static class NoteSorter
     {
@@ -15,7 +16,6 @@ namespace Todo_List
         public static NoteSorter()
         {
             Notes = new List<Note>();
-            Categories = new List<string>();
         }
 
         /// <summary>
@@ -24,8 +24,20 @@ namespace Todo_List
         public static List<Note> Notes { get; set; }
 
         /// <summary>
-        /// Gets or sets the list of categories.
+        /// Gets all the notes with certain category tags.
         /// </summary>
-        public static List<string> Categories { get; set; }
+        /// <param name="categoryNames"> The list of categories. </param>
+        /// <returns> The list of notes under the category. </returns>
+        /// <remarks> Null categories means all categories.</remarks>
+        public static List<Note> GetNotesByCatagory(List<string> categoryNames = null)
+        {
+            IEnumerable<Note> notesUnderCategories = Notes;
+            foreach (string catergory in categoryNames)
+            {
+                notesUnderCategories = notesUnderCategories.Where(n => n.Categories.Contains(catergory.ToUpper()));
+            }
+
+            return notesUnderCategories.ToList();
+        }
     }
 }

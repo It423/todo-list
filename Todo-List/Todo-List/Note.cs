@@ -15,7 +15,7 @@ namespace Todo_List
         public Note()
         {
             this.Title = string.Empty;
-            this.Categories = new List<int>();
+            this.Categories = new List<string>();
             this.Content = string.Empty;
         }
 
@@ -25,7 +25,7 @@ namespace Todo_List
         /// <param name="title"> The title of the note. </param>
         /// <param name="categories"> The categories the note is in. </param>
         /// <param name="content"> The content of the note. </param>
-        public Note(string title, List<int> categories, string content)
+        public Note(string title, List<string> categories, string content)
         {
             this.Title = title;
             this.Categories = categories;
@@ -45,6 +45,6 @@ namespace Todo_List
         /// <summary>
         /// Gets or sets the categories the note is in.
         /// </summary>
-        public List<int> Categories { get; set; }
+        public List<string> Categories { get; set; }
     }
 }
