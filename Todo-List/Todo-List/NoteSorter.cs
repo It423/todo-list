@@ -28,8 +28,8 @@ namespace Todo_List
         /// </summary>
         /// <param name="categoryNames"> The list of categories. </param>
         /// <returns> The list of notes under the category. </returns>
-        /// <remarks> Null categories means all categories.</remarks>
-        public static List<Note> GetNotesByCatagory(List<string> categoryNames = null)
+        /// <remarks> No category names in the list means all categories. </remarks>
+        public static List<Note> GetNotesByCatagory(List<string> categoryNames)
         {
             IEnumerable<Note> notesUnderCategories = Notes;
             foreach (string catergory in categoryNames)
