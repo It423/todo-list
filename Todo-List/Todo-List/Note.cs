@@ -1,15 +1,11 @@
 ﻿// Note.cs
 // <copyright file="Note.cs"> This code is protected under the MIT License. </copyright>
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Todo_List
 {
     /// <summary>
-    /// A data reprisentation of a note.
+    /// A data representation of a note.
     /// </summary>
     public class Note
     {
@@ -19,7 +15,7 @@ namespace Todo_List
         public Note()
         {
             this.Title = string.Empty;
-            this.Catagories = new List<string>();
+            this.Categories = new List<int>();
             this.Content = string.Empty;
         }
 
@@ -27,12 +23,12 @@ namespace Todo_List
         /// Initializes a new instance of the <see cref="Note" /> class.
         /// </summary>
         /// <param name="title"> The title of the note. </param>
-        /// <param name="catagories"> The catagories the not is in. </param>
+        /// <param name="categories"> The categories the note is in. </param>
         /// <param name="content"> The content of the note. </param>
-        public Note(string title, List<string> catagories, string content)
+        public Note(string title, List<int> categories, string content)
         {
             this.Title = title;
-            this.Catagories = catagories;
+            this.Categories = categories;
             this.Content = content;
         }
 
@@ -47,8 +43,8 @@ namespace Todo_List
         public string Content { get; set; }
 
         /// <summary>
-        /// Gets or sets the catagories the note is in.
+        /// Gets or sets the categories the note is in.
         /// </summary>
-        public List<string> Catagories { get; set; }
+        public List<int> Categories { get; set; }
     }
 }
