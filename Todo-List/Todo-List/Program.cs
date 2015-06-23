@@ -20,7 +20,39 @@ namespace Todo_List
         public static void Main(string[] args)
         {
             Help();
-            Console.ReadKey();
+            while (true)
+            {
+                bool exit = false;
+
+                Console.Write(">>> ");
+                string cmd = Console.ReadLine();
+                switch (cmd.Substring(0, 2))
+                {
+                    case "/a": 
+                        // Run add note here 
+                        break;
+                    case "/v": 
+                        // Run view note here 
+                        break;
+                    case "/r": 
+                        // Run remove note here 
+                        break;
+                    case "/e": 
+                        // Run edit note here 
+                        break;
+                    case "/q":
+                        exit = true;
+                        break;
+                    default: 
+                        Console.WriteLine("Invalid command!");
+                        break;
+                }
+                
+                if (exit)
+                {
+                    break;
+                }
+            }
         }
 
         /// <summary>
