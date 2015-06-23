@@ -28,8 +28,7 @@ namespace Todo_List
         /// </summary>
         /// <param name="categoryNames"> The list of categories. </param>
         /// <returns> The list of notes under the category. </returns>
-        /// <remarks> No category names in the list means all categories. </remarks>
-        public static List<Note> GetNotesByCatagory(List<string> categoryNames)
+        public static List<Note> GetNotesByCategory(List<string> categoryNames)
         {
             IEnumerable<Note> notesUnderCategories = Notes;
             foreach (string catergory in categoryNames)
@@ -38,6 +37,49 @@ namespace Todo_List
             }
 
             return notesUnderCategories.ToList();
+        }
+
+        /// <summary>
+        /// Gets all notes under all categories.
+        /// </summary>
+        /// <returns> A dictionary of category to a list of notes. </returns>
+        public static Dictionary<string, List<Note>> GetAllCategories()
+        {
+            // Get all category names
+            List<string> categories = new List<string>();
+            foreach (Note n in Notes)
+            {
+                foreach (string category in n.Categories)
+                {
+                    if (!categories.Contains(category))
+                    {
+                        categories.Add(category);
+                    }
+                }
+            }
+
+            // Add uncategorised if there are some uncategorised notes
+            if (Notes.Where(n => n.Categories.Count == 0).Count() >= 1)
+            {
+                categories.Add("UNCATEGORISED");
+            }
+
+            // Get each note for each category
+            Dictionary<string, List<Note>> categoryDictionary = new Dictionary<string, List<Note>>();
+            foreach (string category in categories)
+            {
+                List<Note> notes = Notes.Where(n => n.Categories.Contains(category)).ToList();
+
+                // Add uncategorised notes
+                if (category == "UNCATEGORISED")
+                {
+                    notes.AddRange(Notes.Where(n => n.Categories.Count == 0));
+                }
+
+                categoryDictionary.Add(category, notes);
+            }
+
+            return categoryDictionary;
         }
 
         /// <summary>
