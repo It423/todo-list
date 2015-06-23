@@ -104,7 +104,7 @@ namespace Todo_List
                 string catString = cmd.Substring(3 + name.Length);
 
                 // Construct the list of categories
-                List<string> categories = catString.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                string[] categories = catString.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
 
                 // Create and add the note
                 NoteSorter.AddNote(new Note(name, categories));

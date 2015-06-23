@@ -59,7 +59,7 @@ namespace Todo_List
             }
 
             // Add uncategorised if there are some uncategorised notes
-            if (Notes.Where(n => n.Categories.Count == 0).Count() >= 1)
+            if (Notes.Where(n => n.Categories.Length == 0).Count() >= 1)
             {
                 categories.Add("UNCATEGORISED");
             }
@@ -73,7 +73,7 @@ namespace Todo_List
                 // Add uncategorised notes
                 if (category == "UNCATEGORISED")
                 {
-                    notes.AddRange(Notes.Where(n => n.Categories.Count == 0));
+                    notes.AddRange(Notes.Where(n => n.Categories.Length == 0));
                 }
 
                 categoryDictionary.Add(category, notes);
