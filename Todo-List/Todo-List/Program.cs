@@ -26,7 +26,7 @@ namespace Todo_List
 
                 Console.Write(">>> ");
                 string cmd = Console.ReadLine();
-                switch (cmd.Substring(0, 2))
+                switch (cmd.Split(new char[] { ' ' })[0])
                 {
                     case "/a":
                         Add(cmd); 
@@ -47,7 +47,7 @@ namespace Todo_List
                         exit = true;
                         break;
                     default: 
-                        Console.WriteLine("Invalid command!");
+                        Console.WriteLine("Invalid command! Use /h to get help.");
                         break;
                 }
                 
