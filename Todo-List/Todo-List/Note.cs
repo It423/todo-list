@@ -23,8 +23,7 @@ namespace Todo_List
         /// </summary>
         /// <param name="title"> The title of the note. </param>
         /// <param name="categories"> The categories the note is in. </param>
-        /// <param name="content"> The content of the note. </param>
-        public Note(string title, List<string> categories, string content)
+        public Note(string title, List<string> categories)
         {
             this.Title = title;
             this.Categories = categories;
