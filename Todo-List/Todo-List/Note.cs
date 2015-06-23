@@ -16,7 +16,6 @@ namespace Todo_List
         {
             this.Title = string.Empty;
             this.Categories = new List<string>();
-            this.Content = string.Empty;
         }
 
         /// <summary>
@@ -29,18 +28,12 @@ namespace Todo_List
         {
             this.Title = title;
             this.Categories = categories;
-            this.Content = content;
         }
 
         /// <summary>
         /// Gets or sets the title of the note.
         /// </summary>
         public string Title { get; set; }
-
-        /// <summary>
-        /// Gets or sets the content of the note.
-        /// </summary>
-        public string Content { get; set; }
 
         /// <summary>
         /// Gets or sets the categories the note is in.
