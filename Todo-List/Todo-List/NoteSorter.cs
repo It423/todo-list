@@ -119,8 +119,10 @@ namespace Todo_List
         public static int NoteIndex(string title)
         {
             // Get the note by the title
-            Note note = Notes.Where(n => n.Title == title).ToArray()[0];
-            return Notes.IndexOf(note);
+            Note[] notesWithTitle = Notes.Where(n => n.Title == title).ToArray();
+
+            // Return the index of it if it was picked up, otherwise return -1
+            return notesWithTitle.Length > 0 ? Notes.IndexOf(notesWithTitle[0]) : -1;
         }
     }
 }
