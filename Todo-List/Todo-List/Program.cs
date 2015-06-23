@@ -35,6 +35,7 @@ namespace Todo_List
             Console.WriteLine("To edit a note use:\n\t/e [Name] [New name] [New Category1, New Catergory2...]\n");
             Console.WriteLine("Categories are not allways needed in the command. When adding/editing a note, it will add to the uncategorised list.");
             Console.WriteLine("When viewing a note it will display all categories.\n");
+            Console.WriteLine("To exit the program, you can close it via the cross or enter:\n\t/q\n");
             Console.WriteLine("To display this help again use:\n\t/h\n\n");        
         } 
     }
