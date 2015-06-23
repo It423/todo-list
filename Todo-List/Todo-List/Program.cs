@@ -64,11 +64,11 @@ namespace Todo_List
         public static void Help()
         {
             Console.WriteLine("Welcome to George Wright's todo list program!");
-            Console.WriteLine("To add a note use:\n\t/a [Name] [Category1, Catergory2...]\n");
+            Console.WriteLine("To add a note use:\n\t/a [\"Note\"] [Category1, Catergory2...]\n");
             Console.WriteLine("To view notes use:\n\t/v [Category1, Catergory2...]\n");
-            Console.WriteLine("To remove a note use:\n\t/r [Name]\n");
-            Console.WriteLine("To edit a note use:\n\t/e [Name] [New name]\n");
-            Console.WriteLine("To edit a note's categories:\n\t/c [Name] [Category1, Catergory2...]\n");
+            Console.WriteLine("To remove a note use:\n\t/r [\"Note\"]\n");
+            Console.WriteLine("To edit a note use:\n\t/e [\"Note\"] [\"New Note\"]\n");
+            Console.WriteLine("To edit a note's categories:\n\t/c [\"Note\"] [Category1, Catergory2...]\n");
             Console.WriteLine("Categories are not allways needed in the command. When addinga note or editing its categories, it will add to the uncategorised list.");
             Console.WriteLine("When viewing a note it will display all categories.\n");
             Console.WriteLine("To exit the program, you can close it via the cross or enter:\n\t/q\n");
@@ -85,10 +85,9 @@ namespace Todo_List
             string name;
             try
             {
-                string cmdInfo = cmd.Substring(3);
-                name = cmdInfo.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
+                name = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
             }
-            catch (ArgumentOutOfRangeException)
+            catch (IndexOutOfRangeException)
             {
                 name = string.Empty;
             }
@@ -101,7 +100,15 @@ namespace Todo_List
             else
             {
                 // Get the string of categories
-                string catString = cmd.Substring(3 + name.Length);
+                string catString;
+                try
+                {
+                    catString = cmd.Substring(cmd.IndexOf('"') + name.Length + 3);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    catString = string.Empty;
+                }
 
                 // Construct the list of categories
                 string[] categories = catString.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
@@ -135,7 +142,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Edit(string cmd)
         {
-
+            
         }
 
         /// <summary>
@@ -144,7 +151,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void EditCategory(string cmd)
         {
-
+            
         }
     }
 }
