@@ -81,7 +81,34 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Add(string cmd)
         {
+            // Get note name
+            string name;
+            try
+            {
+                string cmdInfo = cmd.Substring(3);
+                name = cmdInfo.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries)[0];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                name = string.Empty;
+            }
 
+            // Throw error if name already exists or no name was provided
+            if (NoteSorter.NoteIndex(name) != -1 || name.Length == 0)
+            {
+                Console.WriteLine("Error! No name was provided, or the note already exists!");
+            }
+            else
+            {
+                // Get the string of categories
+                string catString = cmd.Substring(3 + name.Length);
+
+                // Construct the list of categories
+                List<string> categories = catString.Split(new string[] { ", " }, StringSplitOptions.RemoveEmptyEntries).ToList();
+
+                // Create and add the note
+                NoteSorter.AddNote(new Note(name, categories));
+            }
         }
 
         /// <summary>
