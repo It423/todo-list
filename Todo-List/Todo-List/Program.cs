@@ -28,17 +28,20 @@ namespace Todo_List
                 string cmd = Console.ReadLine();
                 switch (cmd.Substring(0, 2))
                 {
-                    case "/a": 
-                        // Run add note here 
+                    case "/a":
+                        Add(cmd); 
                         break;
-                    case "/v": 
-                        // Run view note here 
+                    case "/v":
+                        View(cmd);
                         break;
-                    case "/r": 
-                        // Run remove note here 
+                    case "/r":
+                        Remove(cmd);
                         break;
-                    case "/e": 
-                        // Run edit note here 
+                    case "/e":
+                        Edit(cmd);
+                        break;
+                    case "/c":
+                        EditCategory(cmd);
                         break;
                     case "/q":
                         exit = true;
@@ -65,10 +68,56 @@ namespace Todo_List
             Console.WriteLine("To view notes use:\n\t/v [Category1, Catergory2...]\n");
             Console.WriteLine("To remove a note use:\n\t/r [Name]\n");
             Console.WriteLine("To edit a note use:\n\t/e [Name] [New name]\n");
-            Console.WriteLine("Categories are not allways needed in the command. When adding a note, it will add to the uncategorised list.");
+            Console.WriteLine("To edit a note's categories:\n\t/c [Name] [Category1, Catergory2...]\n");
+            Console.WriteLine("Categories are not allways needed in the command. When addinga note or editing its categories, it will add to the uncategorised list.");
             Console.WriteLine("When viewing a note it will display all categories.\n");
             Console.WriteLine("To exit the program, you can close it via the cross or enter:\n\t/q\n");
             Console.WriteLine("To display this help again use:\n\t/h\n\n");        
         } 
+
+        /// <summary>
+        /// Adds a note.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void Add(string cmd)
+        {
+
+        }
+
+        /// <summary>
+        /// Views notes.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void View(string cmd)
+        {
+
+        }
+
+        /// <summary>
+        /// Removes a note.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void Remove(string cmd)
+        {
+
+        }
+
+        /// <summary>
+        /// Edits a note.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void Edit(string cmd)
+        {
+
+        }
+
+        /// <summary>
+        /// Changes a notes categories.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void EditCategory(string cmd)
+        {
+
+        }
     }
 }
