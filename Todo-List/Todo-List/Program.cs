@@ -29,7 +29,7 @@ namespace Todo_List
                 switch (cmd.Split(new char[] { ' ' })[0])
                 {
                     case "/a":
-                        Add(cmd); 
+                        Add(cmd);
                         break;
                     case "/v":
                         View(cmd);
@@ -103,7 +103,7 @@ namespace Todo_List
                 string catString;
                 try
                 {
-                    catString = cmd.Substring(cmd.IndexOf('"') + name.Length + 3);
+                    catString = cmd.Substring(cmd.IndexOf('"') + name.Length + 3).ToUpper();
                 }
                 catch (ArgumentOutOfRangeException)
                 {

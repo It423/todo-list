@@ -33,7 +33,7 @@ namespace Todo_List
             IEnumerable<Note> notesUnderCategories = Notes;
             foreach (string catergory in categoryNames)
             {
-                notesUnderCategories = notesUnderCategories.Where(n => n.Categories.Select(c => c = c.ToUpper()).Contains(catergory.ToUpper()));
+                notesUnderCategories = notesUnderCategories.Where(n => n.Categories.Contains(catergory.ToUpper()));
             }
 
             return notesUnderCategories.ToList();
