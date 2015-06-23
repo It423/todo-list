@@ -13,7 +13,7 @@ namespace Todo_List
         /// <summary>
         /// Initializes static members of the <see cref="NoteSorter" /> class.
         /// </summary>
-        public static NoteSorter()
+        static NoteSorter()
         {
             Notes = new List<Note>();
         }
