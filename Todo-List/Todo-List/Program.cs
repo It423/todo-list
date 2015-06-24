@@ -26,7 +26,7 @@ namespace Todo_List
 
                 Console.Write(">>> ");
                 string cmd = Console.ReadLine();
-                switch (cmd.Split(new char[] { ' ' })[0])
+                switch (cmd.Split(' ')[0])
                 {
                     case "/a":
                         Add(cmd);
@@ -127,7 +127,6 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void View(string cmd)
         {
-            
         }
 
         /// <summary>
@@ -164,7 +163,27 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Edit(string cmd)
         {
-            
+            try
+            {
+                string oldName = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                string newName = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[3];
+
+                int oldNoteIndex = NoteSorter.NoteIndex(oldName);
+                if (oldNoteIndex != -1)
+                {
+                    Note oldNote = NoteSorter.Notes[oldNoteIndex];
+                    Note newNote = new Note(newName, oldNote.Categories);
+                    NoteSorter.EditNote(oldNote, newNote);
+                }
+                else
+                {
+                    Console.WriteLine("Error! No note was found.");
+                }
+            }
+            catch (IndexOutOfRangeException)
+            {
+                Console.WriteLine("Error! An arguement was missing from the command.");
+            }
         }
 
         /// <summary>
