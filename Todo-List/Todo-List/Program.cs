@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Todo_List
 {
     /// <summary>
-    /// An application entry point for a console-based hand of Whist.
+    /// An application entry point for the console note taking program.
     /// </summary>
     public class Program
     {
