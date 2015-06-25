@@ -28,47 +28,7 @@ namespace Todo_List
                 string cmd = Console.ReadLine();
                 try
                 {
-                    switch (cmd.Split(' ')[0].ToLower())
-                    {
-                        case "a":
-                            Add(cmd);
-                            break;
-                        case "v":
-                            View(cmd);
-                            break;
-                        case "r":
-                            Remove(cmd);
-                            break;
-                        case "e":
-                            Edit(cmd);
-                            break;
-                        case "c":
-                            EditCategory(cmd);
-                            break;
-                        case "h":
-                            Help();
-                            break;
-                        case "q":
-                            exit = true;
-                            break;
-                        case "add":
-                            goto case "a";
-                        case "view":
-                            goto case "v";
-                        case "remove":
-                            goto case "r";
-                        case "edit":
-                            goto case "e";
-                        case "editc":
-                            goto case "c";
-                        case "help":
-                            goto case "h";
-                        case "quit":
-                            goto case "q";
-                        default:
-                            Console.WriteLine("Invalid command! Use h(elp) to get help.");
-                            break;
-                    }
+                    exit = ParseCommand(cmd);
                 }
                 catch (Exception e)
                 {
@@ -80,6 +40,60 @@ namespace Todo_List
                     break;
                 }
             }
+        }
+
+        /// <summary>
+        /// Parses a command that was inputted.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        /// <returns> Whether the user entered the quit command. </returns>
+        public static bool ParseCommand(string cmd)
+        {
+            bool exit = false;
+
+            switch (cmd.Split(' ')[0].ToLower())
+            {
+                case "a":
+                    Add(cmd);
+                    break;
+                case "v":
+                    View(cmd);
+                    break;
+                case "r":
+                    Remove(cmd);
+                    break;
+                case "e":
+                    Edit(cmd);
+                    break;
+                case "c":
+                    EditCategory(cmd);
+                    break;
+                case "h":
+                    Help();
+                    break;
+                case "q":
+                    exit = true;
+                    break;
+                case "add":
+                    goto case "a";
+                case "view":
+                    goto case "v";
+                case "remove":
+                    goto case "r";
+                case "edit":
+                    goto case "e";
+                case "editc":
+                    goto case "c";
+                case "help":
+                    goto case "h";
+                case "quit":
+                    goto case "q";
+                default:
+                    Console.WriteLine("Invalid command! Use h(elp) to get help.");
+                    break;
+            }
+
+            return exit;
         }
 
         /// <summary>
@@ -194,7 +208,7 @@ namespace Todo_List
         }
 
         /// <summary>
-        /// Gets the name providede from a command.
+        /// Gets the name provided from a command.
         /// </summary>
         /// <param name="cmd"> The command inputted. </param>
         /// <returns> The name of the note entered. </returns>
