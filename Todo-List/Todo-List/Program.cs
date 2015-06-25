@@ -128,21 +128,7 @@ namespace Todo_List
                 throw new Exception("The note already exists!");
             }
 
-            // Get the string of categories
-            string catString;
-            try
-            {
-                catString = cmd.Substring(cmd.IndexOf('"') + name.Length + 3).ToUpper();
-            }
-            catch (ArgumentOutOfRangeException)
-            {
-                catString = string.Empty;
-            }
-
-            // Construct the list of categories
-            string[] categories = catString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-            // Create and add the note
+            string[] categories = GetCategories(cmd, cmd.IndexOf('"') + name.Length + 3);
             NoteSorter.AddNote(new Note(name, categories));
         }
 
@@ -225,6 +211,28 @@ namespace Todo_List
             }
 
             return name;
+        }
+
+        /// <summary>
+        /// Gets a list of categories from a command.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        /// <param name="startIndex"> The starting index of the category list. </param>
+        /// <returns> The array of categories inputted. </returns>
+        private static string[] GetCategories(string cmd, int startIndex)
+        {
+            // Get the string of categories
+            string catString = string.Empty;
+            try
+            {
+                catString = cmd.Substring(startIndex).ToUpper();
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+            }
+
+            // Return the categories which are split by a semi-colon
+            return catString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }
