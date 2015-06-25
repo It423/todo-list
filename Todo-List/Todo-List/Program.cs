@@ -193,7 +193,18 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void EditCategory(string cmd)
         {
-            
+            string name = GetName(cmd);
+
+            int noteIndex = NoteSorter.NoteIndex(name);
+            if (noteIndex == -1)
+            {
+                // Throw error if note doesn't exists
+                throw new Exception("No note found under the provided name!");
+            }
+
+            // Edit the categories of the note
+            string[] categories = GetCategories(cmd, cmd.IndexOf('"') + name.Length + 3);
+            NoteSorter.Notes[noteIndex].Categories = categories;
         }
 
         /// <summary>
