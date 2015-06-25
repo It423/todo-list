@@ -171,9 +171,7 @@ namespace Todo_List
                 int oldNoteIndex = NoteSorter.NoteIndex(oldName);
                 if (oldNoteIndex != -1)
                 {
-                    Note oldNote = NoteSorter.Notes[oldNoteIndex];
-                    Note newNote = new Note(newName, oldNote.Categories);
-                    NoteSorter.EditNote(oldNote, newNote);
+                    NoteSorter.Notes[oldNoteIndex].Title = newName;
                 }
                 else
                 {

@@ -101,17 +101,6 @@ namespace Todo_List
         }
 
         /// <summary>
-        /// Edits a note.
-        /// </summary>
-        /// <param name="oldNote"> The old note to edit. </param>
-        /// <param name="newNote"> The new note to replace the old. </param>
-        public static void EditNote(Note oldNote, Note newNote)
-        {
-            int i = Notes.IndexOf(oldNote);
-            Notes[i] = newNote;
-        }
-
-        /// <summary>
         /// Finds the index of a note by the title.
         /// </summary>
         /// <param name="title"> The title of the note. </param>
