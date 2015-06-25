@@ -99,16 +99,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Add(string cmd)
         {
-            // Get note name
-            string name;
-            try
-            {
-                name = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
-            }
-            catch (IndexOutOfRangeException)
-            {
-                name = string.Empty;
-            }
+            string name = GetName(cmd);
 
             // Throw error if name already exists or no name was provided
             if (NoteSorter.NoteIndex(name) != -1 || name.Length == 0)
@@ -150,16 +141,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Remove(string cmd)
         {
-            // Get note name
-            string name;
-            try
-            {
-                name = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
-            }
-            catch (IndexOutOfRangeException)
-            {
-                name = string.Empty;
-            }
+            string name = GetName(cmd);
 
             // Throw error if name doesn't exists or no name was provided
             if (NoteSorter.NoteIndex(name) == -1 || name.Length == 0)
@@ -206,6 +188,26 @@ namespace Todo_List
         public static void EditCategory(string cmd)
         {
             
+        }
+
+        /// <summary>
+        /// Gets the name providede from a command.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        /// <returns> The name of the note entered. </returns>
+        private static string GetName(string cmd)
+        {
+            string name;
+            try
+            {
+                name = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new Exception("No name provided!", e);
+            }
+
+            return name;
         }
     }
 }
