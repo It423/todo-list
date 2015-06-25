@@ -26,31 +26,45 @@ namespace Todo_List
 
                 Console.Write(">>> ");
                 string cmd = Console.ReadLine();
-                switch (cmd.Split(' ')[0])
+                switch (cmd.Split(' ')[0].ToLower())
                 {
-                    case "/a":
+                    case "a":
                         Add(cmd);
                         break;
-                    case "/v":
+                    case "v":
                         View(cmd);
                         break;
-                    case "/r":
+                    case "r":
                         Remove(cmd);
                         break;
-                    case "/e":
+                    case "e":
                         Edit(cmd);
                         break;
-                    case "/c":
+                    case "c":
                         EditCategory(cmd);
                         break;
-                    case "/h":
+                    case "h":
                         Help();
                         break;
-                    case "/q":
+                    case "q":
                         exit = true;
                         break;
-                    default: 
-                        Console.WriteLine("Invalid command! Use /h to get help.");
+                    case "add":
+                        goto case "a";
+                    case "view":
+                        goto case "v";
+                    case "remove":
+                        goto case "r";
+                    case "edit":
+                        goto case "e";
+                    case "editc":
+                        goto case "c";
+                    case "help":
+                        goto case "h";
+                    case "quit":
+                        goto case "q";
+                    default:
+                        Console.WriteLine("Invalid command! Use h(elp) to get help.");
                         break;
                 }
                 
@@ -67,15 +81,16 @@ namespace Todo_List
         public static void Help()
         {
             Console.WriteLine("Welcome to George Wright's todo list program!");
-            Console.WriteLine("To add a note use:\n\t/a \"Note\" Category1;Catergory2...\n");
-            Console.WriteLine("To view notes use:\n\t/v Category1;Catergory2...\n");
-            Console.WriteLine("To remove a note use:\n\t/r \"Note\"\n");
-            Console.WriteLine("To edit a note use:\n\t/e \"Note\" \"New Note\"\n");
-            Console.WriteLine("To edit a note's categories:\n\t/c \"Note\" Category1;Catergory2...\n");
+            Console.WriteLine("To add a note use:\n\ta(dd) \"Note\" Category1;Catergory2...\n");
+            Console.WriteLine("To view notes use:\n\tv(iew) Category1;Catergory2...\n");
+            Console.WriteLine("To remove a note use:\n\tr(emove) \"Note\"\n");
+            Console.WriteLine("To edit a note use:\n\te(dit) \"Note\" \"New Note\"\n");
+            Console.WriteLine("To edit a note's categories:\n\t(edit)c \"Note\" Category1;Catergory2...\n");
             Console.WriteLine("Categories are not allways needed in the command. When adding a note or editing it's categories, it will add to the uncategorised list if nothing is entered.");
             Console.WriteLine("When viewing a note it will display all categories.\n");
-            Console.WriteLine("To exit the program, you can close it via the cross or enter:\n\t/q\n");
-            Console.WriteLine("To display this help again use:\t/h\n");        
+            Console.WriteLine("To exit the program, you can close it via the cross or enter:\n\tq(uit)\n");
+            Console.WriteLine("Everything in brackets is not needed for the command!");
+            Console.WriteLine("To display this help again use:\th(elp)");
         } 
 
         /// <summary>
