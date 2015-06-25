@@ -26,46 +26,53 @@ namespace Todo_List
 
                 Console.Write(">>> ");
                 string cmd = Console.ReadLine();
-                switch (cmd.Split(' ')[0].ToLower())
+                try
                 {
-                    case "a":
-                        Add(cmd);
-                        break;
-                    case "v":
-                        View(cmd);
-                        break;
-                    case "r":
-                        Remove(cmd);
-                        break;
-                    case "e":
-                        Edit(cmd);
-                        break;
-                    case "c":
-                        EditCategory(cmd);
-                        break;
-                    case "h":
-                        Help();
-                        break;
-                    case "q":
-                        exit = true;
-                        break;
-                    case "add":
-                        goto case "a";
-                    case "view":
-                        goto case "v";
-                    case "remove":
-                        goto case "r";
-                    case "edit":
-                        goto case "e";
-                    case "editc":
-                        goto case "c";
-                    case "help":
-                        goto case "h";
-                    case "quit":
-                        goto case "q";
-                    default:
-                        Console.WriteLine("Invalid command! Use h(elp) to get help.");
-                        break;
+                    switch (cmd.Split(' ')[0].ToLower())
+                    {
+                        case "a":
+                            Add(cmd);
+                            break;
+                        case "v":
+                            View(cmd);
+                            break;
+                        case "r":
+                            Remove(cmd);
+                            break;
+                        case "e":
+                            Edit(cmd);
+                            break;
+                        case "c":
+                            EditCategory(cmd);
+                            break;
+                        case "h":
+                            Help();
+                            break;
+                        case "q":
+                            exit = true;
+                            break;
+                        case "add":
+                            goto case "a";
+                        case "view":
+                            goto case "v";
+                        case "remove":
+                            goto case "r";
+                        case "edit":
+                            goto case "e";
+                        case "editc":
+                            goto case "c";
+                        case "help":
+                            goto case "h";
+                        case "quit":
+                            goto case "q";
+                        default:
+                            Console.WriteLine("Invalid command! Use h(elp) to get help.");
+                            break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
                 }
                 
                 if (exit)
