@@ -163,25 +163,28 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Edit(string cmd)
         {
+            // Get names inputted
+            string[] names = new string[2];
             try
             {
-                string oldName = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
-                string newName = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[3];
-
-                int oldNoteIndex = NoteSorter.NoteIndex(oldName);
-                if (oldNoteIndex != -1)
-                {
-                    NoteSorter.Notes[oldNoteIndex].Title = newName;
-                }
-                else
-                {
-                    Console.WriteLine("Error! No note was found.");
-                }
+                names[0] = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                names[1] = cmd.Split(new char[] { '"' }, StringSplitOptions.RemoveEmptyEntries)[3];
             }
-            catch (IndexOutOfRangeException)
+            catch (IndexOutOfRangeException e)
             {
-                Console.WriteLine("Error! An arguement was missing from the command.");
+                throw new Exception("The command is incomplete!", e);
             }
+
+            // Get note index
+            int noteIndex = NoteSorter.NoteIndex(names[0]);
+            if (noteIndex == -1)
+            {
+                // Throw error if the note doesn't exist
+                throw new Exception("No note found under the provided name!");
+            }
+
+            // Edit the notes name
+            NoteSorter.Notes[noteIndex].Title = names[1];
         }
 
         /// <summary>
