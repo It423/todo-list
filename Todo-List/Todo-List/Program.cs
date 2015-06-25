@@ -101,30 +101,28 @@ namespace Todo_List
         {
             string name = GetName(cmd);
 
-            // Throw error if name already exists or no name was provided
-            if (NoteSorter.NoteIndex(name) != -1 || name.Length == 0)
+            if (NoteSorter.NoteIndex(name) != -1)
             {
-                Console.WriteLine("Error! No name was provided, or the note already exists!");
+                // Throw error if name already exists
+                throw new Exception("The note already exists!");
             }
-            else
+
+            // Get the string of categories
+            string catString;
+            try
             {
-                // Get the string of categories
-                string catString;
-                try
-                {
-                    catString = cmd.Substring(cmd.IndexOf('"') + name.Length + 3).ToUpper();
-                }
-                catch (ArgumentOutOfRangeException)
-                {
-                    catString = string.Empty;
-                }
-
-                // Construct the list of categories
-                string[] categories = catString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-                // Create and add the note
-                NoteSorter.AddNote(new Note(name, categories));
+                catString = cmd.Substring(cmd.IndexOf('"') + name.Length + 3).ToUpper();
             }
+            catch (ArgumentOutOfRangeException)
+            {
+                catString = string.Empty;
+            }
+
+            // Construct the list of categories
+            string[] categories = catString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Create and add the note
+            NoteSorter.AddNote(new Note(name, categories));
         }
 
         /// <summary>
@@ -143,15 +141,13 @@ namespace Todo_List
         {
             string name = GetName(cmd);
 
-            // Throw error if name doesn't exists or no name was provided
             if (NoteSorter.NoteIndex(name) == -1 || name.Length == 0)
             {
-                Console.WriteLine("Error! No name was provided, or the note doesn't exists!");
+                // Throw error if name doesn't exists
+                throw new Exception("No note found under the provided name!");
             }
-            else
-            {
-                NoteSorter.RemoveNote(NoteSorter.Notes[NoteSorter.NoteIndex(name)]);
-            }
+
+            NoteSorter.RemoveNote(NoteSorter.Notes[NoteSorter.NoteIndex(name)]);
         }
 
         /// <summary>
