@@ -16,6 +16,12 @@ namespace Todo_List
         /// <param name="args"> Any arguments the program is run with. </param>
         public static void Main(string[] args)
         {
+            // Add shutdown hook to save the data on exit
+            AppDomain.CurrentDomain.ProcessExit += (s, e) => XMLDataSaver.SaveXMLFile();
+
+            // Open the file and read the saved data
+            XMLDataSaver.ReadXMLFile();
+
             Help();
             while (true)
             {
