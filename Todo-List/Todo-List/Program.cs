@@ -2,9 +2,6 @@
 // <copyright file="Program.cs"> This code is protected under the MIT License. </copyright>
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Todo_List
 {
@@ -37,7 +34,7 @@ namespace Todo_List
                 
                 if (exit)
                 {
-                    break;
+                    Environment.Exit(0);
                 }
             }
         }
