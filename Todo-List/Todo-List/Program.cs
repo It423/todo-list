@@ -138,6 +138,33 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void View(string cmd)
         {
+            NoteSorter.CheckCategorys();
+            string[] categories = cmd.IndexOf(' ') != -1 ? GetCategories(cmd, cmd.IndexOf(' ') + 1) : new string[0];
+
+            // Create a dictionary of the category and its notes
+            Dictionary<string, List<Note>> data = new Dictionary<string, List<Note>>();
+            if (categories.Length > 0)
+            {
+                List<Note> notesInCats = NoteSorter.GetNotesByCategory(categories);
+                string cats = categories.Length == 1 ? categories[0] : InstertAnd(categories);
+                data.Add(cats, notesInCats);
+            }
+            else
+            {
+                data = NoteSorter.GetAllCategories();
+            }
+
+            // Display the information
+            foreach (KeyValuePair<string, List<Note>> category in data)
+            {
+                Console.WriteLine(category.Key);
+                foreach (Note n in category.Value)
+                {
+                    Console.WriteLine("- {0}", n.Title);
+                }
+
+                Console.WriteLine();
+            }
         }
 
         /// <summary>
@@ -247,6 +274,27 @@ namespace Todo_List
 
             // Return the categories which are split by a semi-colon
             return catString.Split(new char[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        /// <summary>
+        /// Joins an array of categories into one string and inserts an and at the end.
+        /// </summary>
+        /// <param name="categories"> The list of categories to concatenate. </param>
+        /// <returns> The concatenated string with an and at the end. </returns>
+        private static string InstertAnd(string[] categories)
+        {
+            string catString = string.Empty;
+
+            // Add elemenets to string with a comma to seperate them
+            for (int i = 0; i < categories.Length - 1; i++)
+            {
+                catString += string.Format("{0}, ", categories[i]);
+            }
+
+            // Insert last element with an and
+            catString += string.Format("and {0}", categories[categories.Length - 1]);
+
+            return catString;
         }
     }
 }
