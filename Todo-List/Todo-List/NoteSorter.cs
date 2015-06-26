@@ -24,11 +24,25 @@ namespace Todo_List
         public static List<Note> Notes { get; set; }
 
         /// <summary>
+        /// Checks all notes have a category.
+        /// </summary>
+        public static void CheckCategorys()
+        {
+            for (int i = 0; i < Notes.Count; i++)
+            {
+                if (Notes[i].Categories.Length == 0)
+                {
+                    Notes[i].Categories = new string[1] { "UNCATEGORISED" };
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets all the notes with certain category tags.
         /// </summary>
         /// <param name="categoryNames"> The list of categories. </param>
         /// <returns> The list of notes under the category. </returns>
-        public static List<Note> GetNotesByCategory(List<string> categoryNames)
+        public static List<Note> GetNotesByCategory(string[] categoryNames)
         {
             IEnumerable<Note> notesUnderCategories = Notes;
             foreach (string catergory in categoryNames)
@@ -58,24 +72,11 @@ namespace Todo_List
                 }
             }
 
-            // Add uncategorised if there are some uncategorised notes
-            if (Notes.Where(n => n.Categories.Length == 0).Count() >= 1)
-            {
-                categories.Add("UNCATEGORISED");
-            }
-
             // Get each note for each category
             Dictionary<string, List<Note>> categoryDictionary = new Dictionary<string, List<Note>>();
             foreach (string category in categories)
             {
                 List<Note> notes = Notes.Where(n => n.Categories.Contains(category)).ToList();
-
-                // Add uncategorised notes
-                if (category == "UNCATEGORISED")
-                {
-                    notes.AddRange(Notes.Where(n => n.Categories.Length == 0));
-                }
-
                 categoryDictionary.Add(category, notes);
             }
 
