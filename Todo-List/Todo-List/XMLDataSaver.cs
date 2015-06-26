@@ -16,6 +16,18 @@ namespace Todo_List
         /// </summary>
         public static void ReadXMLFile()
         {
+            try
+            {
+                using (TextReader tr = new StreamReader("TodoListData.xml"))
+                {
+                    XmlSerializer xs = new XmlSerializer(typeof(List<Note>));
+                    NoteSorter.Notes = (List<Note>)xs.Deserialize(tr);
+                }
+            }
+            catch (FileNotFoundException)
+            {
+                // File not found so don't read anything	
+            }
         }
 
         /// <summary>
@@ -23,6 +35,11 @@ namespace Todo_List
         /// </summary>
         public static void SaveXMLFile()
         {
+            using (TextWriter tw = new StreamWriter("TodoListData.xml"))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(List<Note>));
+                xs.Serialize(tw, NoteSorter.Notes);
+            }
         }
     }
 }
