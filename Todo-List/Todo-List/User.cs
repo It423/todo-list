@@ -1,32 +1,44 @@
-﻿// NoteSorter.cs
-// <copyright file="NoteSorter.cs"> This code is protected under the MIT License. </copyright>
+﻿// User.cs
+// <copyright file="User.cs"> This code is protected under the MIT License. </copyright>
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Todo_List
 {
     /// <summary>
-    /// A static class containing a list of notes and methods for sorting them.
+    /// A class containing data that represents a user and their notes.
     /// </summary>
-    public static class NoteSorter
+    public class User
     {
         /// <summary>
-        /// Initializes static members of the <see cref="NoteSorter" /> class.
+        /// Initializes members of the <see cref="User" /> class.
         /// </summary>
-        static NoteSorter()
+        public User()
         {
+            Name = string.Empty;
+            Password = string.Empty;
             Notes = new List<Note>();
         }
 
         /// <summary>
-        /// Gets or sets the list of notes currently stored in the program.
+        /// Gets or sets the username of the user.
         /// </summary>
-        public static List<Note> Notes { get; set; }
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password of the user.
+        /// </summary>
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of notes stored for the user.
+        /// </summary>
+        public List<Note> Notes { get; set; }
 
         /// <summary>
         /// Checks all notes have a category.
         /// </summary>
-        public static void CheckCategorys()
+        public void CheckCategorys()
         {
             for (int i = 0; i < Notes.Count; i++)
             {
@@ -42,7 +54,7 @@ namespace Todo_List
         /// </summary>
         /// <param name="categoryNames"> The list of categories. </param>
         /// <returns> The list of notes under the category. </returns>
-        public static List<Note> GetNotesByCategory(string[] categoryNames)
+        public List<Note> GetNotesByCategory(string[] categoryNames)
         {
             IEnumerable<Note> notesUnderCategories = Notes;
             foreach (string catergory in categoryNames)
@@ -57,7 +69,7 @@ namespace Todo_List
         /// Gets all notes under all categories.
         /// </summary>
         /// <returns> A dictionary of category to a list of notes. </returns>
-        public static Dictionary<string, List<Note>> GetAllCategories()
+        public Dictionary<string, List<Note>> GetAllCategories()
         {
             // Get all category names
             List<string> categories = new List<string>();
@@ -87,7 +99,7 @@ namespace Todo_List
         /// Adds a note to the collection of notes.
         /// </summary>
         /// <param name="note"> The note to add. </param>
-        public static void AddNote(Note note)
+        public void AddNote(Note note)
         {
             Notes.Add(note);
         }
@@ -96,7 +108,7 @@ namespace Todo_List
         /// Removes a note from the collection of notes.
         /// </summary>
         /// <param name="note"> The note to remove. </param>
-        public static void RemoveNote(Note note)
+        public void RemoveNote(Note note)
         {
             Notes.Remove(note);
         }
@@ -106,7 +118,7 @@ namespace Todo_List
         /// </summary>
         /// <param name="title"> The title of the note. </param>
         /// <returns> The index of the note in the list. </returns>
-        public static int NoteIndex(string title)
+        public int NoteIndex(string title)
         {
             // Get the note by the title
             Note[] notesWithTitle = Notes.Where(n => n.Title == title).ToArray();

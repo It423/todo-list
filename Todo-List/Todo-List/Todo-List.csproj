@@ -43,13 +43,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Note.cs" />
-    <Compile Include="NoteSorter.cs" />
+    <Compile Include="User.cs" />
     <Compile Include="Program.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="UserManager.cs" />
     <Compile Include="XMLDataSaver.cs" />
   </ItemGroup>
   <ItemGroup>

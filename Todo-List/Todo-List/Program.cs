@@ -56,6 +56,21 @@ namespace Todo_List
 
             switch (cmd.Split(' ')[0].ToLower())
             {
+                case "l":
+                    Login(cmd); 
+                    break;                
+                case "u":
+                    AddUser(cmd); 
+                    break;
+                case "d":
+                    DeleteUser(cmd); 
+                    break;
+                case "p":
+                    ChangePassword(cmd); 
+                    break;                
+                case "s":
+                    ShowUsers();
+                    break;
                 case "a":
                     Add(cmd);
                     break;
@@ -77,6 +92,16 @@ namespace Todo_List
                 case "q":
                     exit = true;
                     break;
+                case "login":
+                    goto case "l";
+                case "useradd":
+                    goto case "u";
+                case "deleteuser":
+                    goto case "d";
+                case "passwordchange":
+                    goto case "p";
+                case "showusers":
+                    goto case "s";
                 case "add":
                     goto case "a";
                 case "view":
@@ -105,6 +130,11 @@ namespace Todo_List
         public static void Help()
         {
             Console.WriteLine("Welcome to George Wright's todo list program!");
+            Console.WriteLine("To login use:\n\tl(ogin) username password\n");
+            Console.WriteLine("To add an user use:\n\tu(seraddd) username password\n");
+            Console.WriteLine("To delete an user use:\n\td(eleteuser) username password\n");
+            Console.WriteLine("To change a passwor use:\n\tp(asswordchange) username password newpassword\n");
+            Console.WriteLine("To list users avalibile use:\n\ts(howusers)\n");
             Console.WriteLine("To add a note use:\n\ta(dd) \"Note\" Category1;Catergory2...\n");
             Console.WriteLine("To view notes use:\n\tv(iew) Category1;Catergory2...\n");
             Console.WriteLine("To remove a note use:\n\tr(emove) \"Note\"\n");
@@ -115,7 +145,85 @@ namespace Todo_List
             Console.WriteLine("To exit the program, you can close it via the cross or enter:\n\tq(uit)\n");
             Console.WriteLine("Everything in brackets is not needed for the command!");
             Console.WriteLine("To display this help again use:\th(elp)");
-        } 
+        }
+
+        /// <summary>
+        /// Logs in a user.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void Login(string cmd)
+        {
+            string username = cmd.Split(' ')[1];
+            string password = cmd.Split(' ')[2];
+        }
+
+        /// <summary>
+        /// Adds a user to the system.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void AddUser(string cmd)
+        {
+            string username = cmd.Split(' ')[1];
+            string password = cmd.Split(' ')[2];
+
+            UserManager.CreateUser(username, password);
+            Console.WriteLine("New user created\n\tusername: {0}\n\tpassword: {1}", username, password);
+        }
+
+        /// <summary>
+        /// Removes a user from the system.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void DeleteUser(string cmd)
+        {
+            string username = cmd.Split(' ')[1];
+            string password = cmd.Split(' ')[2];
+
+            if (UserManager.TryDeleteUser(username, password))
+            {
+                Console.WriteLine("User removed");
+            }
+            else
+            {
+                Console.WriteLine("Invalid username or password. Cannot delete user");
+            }
+        }
+
+        /// <summary>
+        /// Changes the password of a user.
+        /// </summary>
+        /// <param name="cmd"> The command inputted. </param>
+        public static void ChangePassword(string cmd)
+        {
+            string username = cmd.Split(' ')[1];
+            string password = cmd.Split(' ')[2];
+            string newPassword = cmd.Split(' ')[3];
+
+            if (UserManager.TryChangePassword(username, password, newPassword))
+            {
+                Console.WriteLine("User password change\n\tusername: {0}\n\tpassword: {1}", username, password);
+            }
+            else
+            {
+                Console.WriteLine("Invalid username or password. Cannot change password");
+            }
+        }
+
+        /// <summary>
+        /// Lists users recorded on system.
+        /// </summary>
+        public static void ShowUsers()
+        {
+            List<string> users = UserManager.GetUsers();
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                Console.Write(users[i]);
+                Console.WriteLine(i == UserManager.LoginIndex ? " - LOGGED IN" : string.Empty);
+            }
+
+            Console.WriteLine();
+        }
 
         /// <summary>
         /// Adds a note.
@@ -123,16 +231,21 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Add(string cmd)
         {
+            if (!CheckLoggedIn())
+            {
+                return;
+            }
+
             string name = GetName(cmd);
 
-            if (NoteSorter.NoteIndex(name) != -1)
+            if (UserManager.Users[UserManager.LoginIndex].NoteIndex(name) != -1)
             {
                 // Throw error if name already exists
                 throw new Exception("The note already exists!");
             }
 
             string[] categories = GetCategories(cmd, cmd.IndexOf('"') + name.Length + 3);
-            NoteSorter.AddNote(new Note(name, categories));
+            UserManager.Users[UserManager.LoginIndex].AddNote(new Note(name, categories));
         }
 
         /// <summary>
@@ -141,23 +254,30 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void View(string cmd)
         {
-            NoteSorter.CheckCategorys();
+            if (!CheckLoggedIn())
+            {
+                return;
+            }
+
+            UserManager.Users[UserManager.LoginIndex].CheckCategorys();
             string[] categories = cmd.IndexOf(' ') != -1 ? GetCategories(cmd, cmd.IndexOf(' ') + 1) : new string[0];
 
             // Create a dictionary of the category and its notes
             Dictionary<string, List<Note>> data = new Dictionary<string, List<Note>>();
             if (categories.Length > 0)
             {
-                List<Note> notesInCats = NoteSorter.GetNotesByCategory(categories);
+                List<Note> notesInCats = UserManager.Users[UserManager.LoginIndex].GetNotesByCategory(categories);
                 string cats = categories.Length == 1 ? categories[0] : InstertAnd(categories);
                 data.Add(cats, notesInCats);
             }
             else
             {
-                data = NoteSorter.GetAllCategories();
+                data = UserManager.Users[UserManager.LoginIndex].GetAllCategories();
             }
 
             // Display the information
+            Console.WriteLine();
+
             foreach (KeyValuePair<string, List<Note>> category in data)
             {
                 Console.WriteLine(category.Key);
@@ -176,15 +296,20 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Remove(string cmd)
         {
+            if (!CheckLoggedIn())
+            {
+                return;
+            }
+
             string name = GetName(cmd);
 
-            if (NoteSorter.NoteIndex(name) == -1 || name.Length == 0)
+            if (UserManager.Users[UserManager.LoginIndex].NoteIndex(name) == -1 || name.Length == 0)
             {
                 // Throw error if name doesn't exists
                 throw new Exception("No note found under the provided name!");
             }
 
-            NoteSorter.RemoveNote(NoteSorter.Notes[NoteSorter.NoteIndex(name)]);
+            UserManager.Users[UserManager.LoginIndex].RemoveNote(UserManager.Users[UserManager.LoginIndex].Notes[UserManager.Users[UserManager.LoginIndex].NoteIndex(name)]);
         }
 
         /// <summary>
@@ -193,6 +318,11 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Edit(string cmd)
         {
+            if (!CheckLoggedIn())
+            {
+                return;
+            }
+
             // Get names inputted
             string[] names = new string[2];
             try
@@ -206,7 +336,7 @@ namespace Todo_List
             }
 
             // Get note index
-            int noteIndex = NoteSorter.NoteIndex(names[0]);
+            int noteIndex = UserManager.Users[UserManager.LoginIndex].NoteIndex(names[0]);
             if (noteIndex == -1)
             {
                 // Throw error if the note doesn't exist
@@ -214,7 +344,7 @@ namespace Todo_List
             }
 
             // Edit the notes name
-            NoteSorter.Notes[noteIndex].Title = names[1];
+            UserManager.Users[UserManager.LoginIndex].Notes[noteIndex].Title = names[1];
         }
 
         /// <summary>
@@ -223,9 +353,14 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void EditCategory(string cmd)
         {
+            if (!CheckLoggedIn())
+            {
+                return;
+            }
+
             string name = GetName(cmd);
 
-            int noteIndex = NoteSorter.NoteIndex(name);
+            int noteIndex = UserManager.Users[UserManager.LoginIndex].NoteIndex(name);
             if (noteIndex == -1)
             {
                 // Throw error if note doesn't exists
@@ -234,7 +369,25 @@ namespace Todo_List
 
             // Edit the categories of the note
             string[] categories = GetCategories(cmd, cmd.IndexOf('"') + name.Length + 3);
-            NoteSorter.Notes[noteIndex].Categories = categories;
+            UserManager.Users[UserManager.LoginIndex].Notes[noteIndex].Categories = categories;
+        }
+
+        /// <summary>
+        /// Checks if a user is currently logged into the program.
+        /// </summary>
+        /// <returns> True if there is a logged in user. </returns>
+        private static bool CheckLoggedIn()
+        {
+            try
+            {
+                User u = UserManager.Users[UserManager.LoginIndex];
+                return true;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Currently not logged into a user!");
+                return false;
+            }
         }
 
         /// <summary>

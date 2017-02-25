@@ -20,8 +20,8 @@ namespace Todo_List
             {
                 using (TextReader tr = new StreamReader("TodoListData.xml"))
                 {
-                    XmlSerializer xs = new XmlSerializer(typeof(List<Note>));
-                    NoteSorter.Notes = (List<Note>)xs.Deserialize(tr);
+                    XmlSerializer xs = new XmlSerializer(typeof(List<User>));
+                    UserManager.Users = (List<User>)xs.Deserialize(tr);
                 }
             }
             catch (FileNotFoundException)
@@ -37,8 +37,8 @@ namespace Todo_List
         {
             using (TextWriter tw = new StreamWriter("TodoListData.xml"))
             {
-                XmlSerializer xs = new XmlSerializer(typeof(List<Note>));
-                xs.Serialize(tw, NoteSorter.Notes);
+                XmlSerializer xs = new XmlSerializer(typeof(List<User>));
+                xs.Serialize(tw, UserManager.Users);
             }
         }
     }
