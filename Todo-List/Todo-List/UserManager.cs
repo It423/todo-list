@@ -1,9 +1,6 @@
 ﻿// UserManager.cs
 // <copyright file="UserManager.cs"> This code is protected under the MIT License. </copyright>
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Todo_List
 {
