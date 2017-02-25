@@ -22,6 +22,12 @@ namespace Todo_List
             // Open the file and read the saved data
             XMLDataSaver.ReadXMLFile();
 
+            // Auto login user if there is only the one user saved
+            if (UserManager.Users.Count == 1)
+            {
+                UserManager.LoginIndex = 0;
+            }
+
             Help();
             while (true)
             {
