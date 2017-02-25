@@ -159,8 +159,27 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Login(string cmd)
         {
-            string username = cmd.Split(' ')[1];
-            string password = cmd.Split(' ')[2];
+            string username;
+            string password; 
+
+            try
+            {
+                username = cmd.Split(' ')[1];
+                password = cmd.Split(' ')[2];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new Exception("The command is incomplete!", e);
+            }
+
+            if (UserManager.TryLogin(username, password))
+            {
+                Console.WriteLine("Logged into user: {0}", username);
+            }
+            else
+            {
+                Console.WriteLine("Invalid username or password. Cannot login");
+            }
         }
 
         /// <summary>
@@ -169,8 +188,18 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void AddUser(string cmd)
         {
-            string username = cmd.Split(' ')[1];
-            string password = cmd.Split(' ')[2];
+            string username;
+            string password;
+
+            try
+            {
+                username = cmd.Split(' ')[1];
+                password = cmd.Split(' ')[2];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new Exception("The command is incomplete!", e);
+            }
 
             UserManager.CreateUser(username, password);
             Console.WriteLine("New user created\n\tusername: {0}\n\tpassword: {1}", username, password);
@@ -182,8 +211,18 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void DeleteUser(string cmd)
         {
-            string username = cmd.Split(' ')[1];
-            string password = cmd.Split(' ')[2];
+            string username;
+            string password;
+
+            try
+            {
+                username = cmd.Split(' ')[1];
+                password = cmd.Split(' ')[2];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new Exception("The command is incomplete!", e);
+            }
 
             if (UserManager.TryDeleteUser(username, password))
             {
@@ -201,9 +240,20 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void ChangePassword(string cmd)
         {
-            string username = cmd.Split(' ')[1];
-            string password = cmd.Split(' ')[2];
-            string newPassword = cmd.Split(' ')[3];
+            string username;
+            string password;
+            string newPassword;
+
+            try
+            {
+                username = cmd.Split(' ')[1];
+                password = cmd.Split(' ')[2];
+                newPassword = cmd.Split(' ')[3];
+            }
+            catch (IndexOutOfRangeException e)
+            {
+                throw new Exception("The command is incomplete!", e);
+            }
 
             if (UserManager.TryChangePassword(username, password, newPassword))
             {
@@ -237,10 +287,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Add(string cmd)
         {
-            if (!CheckLoggedIn())
-            {
-                return;
-            }
+            CheckLoggedIn();
 
             string name = GetName(cmd);
 
@@ -260,10 +307,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void View(string cmd)
         {
-            if (!CheckLoggedIn())
-            {
-                return;
-            }
+            CheckLoggedIn();
 
             UserManager.Users[UserManager.LoginIndex].CheckCategorys();
             string[] categories = cmd.IndexOf(' ') != -1 ? GetCategories(cmd, cmd.IndexOf(' ') + 1) : new string[0];
@@ -273,7 +317,7 @@ namespace Todo_List
             if (categories.Length > 0)
             {
                 List<Note> notesInCats = UserManager.Users[UserManager.LoginIndex].GetNotesByCategory(categories);
-                string cats = categories.Length == 1 ? categories[0] : InstertAnd(categories);
+                string cats = categories.Length == 1 ? categories[0] : InsertAnd(categories);
                 data.Add(cats, notesInCats);
             }
             else
@@ -302,10 +346,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Remove(string cmd)
         {
-            if (!CheckLoggedIn())
-            {
-                return;
-            }
+            CheckLoggedIn();
 
             string name = GetName(cmd);
 
@@ -324,10 +365,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void Edit(string cmd)
         {
-            if (!CheckLoggedIn())
-            {
-                return;
-            }
+            CheckLoggedIn();
 
             // Get names inputted
             string[] names = new string[2];
@@ -359,10 +397,7 @@ namespace Todo_List
         /// <param name="cmd"> The command inputted. </param>
         public static void EditCategory(string cmd)
         {
-            if (!CheckLoggedIn())
-            {
-                return;
-            }
+            CheckLoggedIn();
 
             string name = GetName(cmd);
 
@@ -381,18 +416,15 @@ namespace Todo_List
         /// <summary>
         /// Checks if a user is currently logged into the program.
         /// </summary>
-        /// <returns> True if there is a logged in user. </returns>
-        private static bool CheckLoggedIn()
+        private static void CheckLoggedIn()
         {
             try
             {
                 User u = UserManager.Users[UserManager.LoginIndex];
-                return true;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                Console.WriteLine("Currently not logged into a user!");
-                return false;
+                throw new Exception("Currently not logged into a user!", e);
             }
         }
 
@@ -443,7 +475,7 @@ namespace Todo_List
         /// </summary>
         /// <param name="categories"> The list of categories to concatenate. </param>
         /// <returns> The concatenated string with an and at the end. </returns>
-        private static string InstertAnd(string[] categories)
+        private static string InsertAnd(string[] categories)
         {
             string catString = string.Empty;
 
